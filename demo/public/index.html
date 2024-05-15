@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/htmx.org@1.9.12"
+    integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>HTMX Examples</title>
+</head>
+
+<body class="bg-sky-100">
+  <div class="text-center [&>*]:py-10">
+    <h1 class="text-3xl font-bold my-5">
+      HTMX Examples
+    </h1>
+
+    <!-- Trigger Modifiers -->
+    <div class="text-white max-w-sm mx-auto my-5 bg-sky-600" hx-get="/toggle-visibility" hx-trigger="mouseover once"
+      hx-swap="innerHTML">
+      Click to Toggle Visibility
+    </div>
+
+    <!-- Fetch Users Example -->
+    <div class="flex flex-col max-w-sm m-auto">
+      <button hx-get="/users" hx-trigger="click" hx-target="#users" hx-confirm="Are you sure you want to fetch users?"
+        class="bg-sky-600 text-white py-2 px-3 my-5 rounded-lg w-full">
+        Get Users
+      </button>
+      <div id="users"></div>
+
+      <button hx-get="/fetch" hx-trigger="click" hx-swap="outerHTML" hx-indicator="#loader" hx-vals='{"limit": 5}'
+        class="bg-sky-600 text-white py-2 px-3 my-5 rounded-lg w-100">
+        Fetch Users
+      </button>
+      <span class="htmx-indicator" id="loader">
+        <!-- Loading... -->
+        <img src="image/loader.gif" alt="Loading..." class="m-auto h-30 w-30" />
+      </span>
+    </div>
+
+    <!-- Temperature Converter Example -->
+    <div class=" mx-auto text-center">
+      <div class="bg-white p-4 border rounded-lg max-w-lg m-auto">
+        <h1 class="text-2xl font-bold mb-4">Temperature Converter</h1>
+        <form hx-trigger="submit" hx-post="/convert" hx-target="#result" hx-indicator="#loading" hx-boost="500">
+          <label for="fahrenheit">Fahrenheit:</label>
+          <input type="number" id="fahrenheit" name="fahrenheit" class="border p-2 rounded" value="32" required />
+          <button type="submit" class="bg-sky-600 text-white px-4 py-2 rounded">
+            Convert
+          </button>
+
+          <div id="result" class="mt-6 text-xl"></div>
+          <span class="htmx-indicator" id="loading">
+            <img src="image/loading.gif" alt="Loading..." class="m-auto h-10" />
+          </span>
+        </form>
+      </div>
+    </div>
+
+    <!-- Polling Example -->
+    <h1 class="text-xl">Polling Example</h1>
+    <p class="text-2xl">
+      <span hx-get="/polling" hx-trigger="every 1s">Loading...</span>
+    </p>
+
+    <!-- Search Example -->
+    <div class="container mx-auto py-8 max-w-lg">
+      <span class="htmx-indicator" id="loading">
+        <img src="image/loader.gif" alt="Loading..." class="m-auto h-10" />
+      </span>
+      <div class="bg-gray-900 text-white p-4 border border-gray-600 rounded-lg max-w-lg m-auto">
+        <h3 class="text-2xl mb-3 text-center">Search Contacts</h3>
+        <!-- Trigger Modifiers -->
+        <input class="border border-gray-600 bg-gray-800 p-2 rounded-lg w-full mb-5" type="search" name="search"
+          placeholder="Begin Typing To Search Users..." hx-post="/search" hx-trigger="input changed delay:500ms, search"
+          hx-target="#search-results" hx-indicator="#loading" />
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-800 text-white">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                Name
+              </th>
+              <th scope="col" class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                Email
+              </th>
+            </tr>
+          </thead>
+          <tbody id="search-results" class="divide-y divide-gray-600">
+            <!-- Your search results go here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>
